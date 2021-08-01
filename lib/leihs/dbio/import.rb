@@ -70,6 +70,8 @@ module Leihs
           audits
         )
 
+        # TABLES = %w(images)
+
         NEW_TABLES = %w( procurement_images )
 
         (TABLES + NEW_TABLES).each do |tbl_name|
@@ -201,7 +203,6 @@ module Leihs
           thumbnail_content = read_and_encode_file(thumbnail_file_path)
           begin
             if content and thumbnail_content
-              thumbnail_file = File.open(thumbnail_file_path)
               row.merge \
                 after_create: { table_name: 'procurement_main_categories',
                                 data: [{ content_type: row[:image_content_type],
@@ -211,9 +212,9 @@ module Leihs
                                        { content_type: row[:image_content_type],
                                          content: thumbnail_content,
                                          filename: row[:image_file_name],
-                                         size: thumbnail_file.size }] }
+                                         size: File.size(thumbnail_file_path)}] }
             else
-              row
+              row.reject { |k ,v| %w(image_file_name image_content_type image_file_size image_updated_at).include? k }
             end
           rescue => e
             Rails.logger.warn(e.message)
@@ -257,12 +258,11 @@ module Leihs
           thumbnail_file_path = "#{@v3_images_dir}/#{path_to_file(row[:id], thumbnail_filename)}"
 
           begin
-            file = File.open(thumbnail_file_path)
             row.merge \
               id: nil,
               content: read_and_encode_file(thumbnail_file_path),
               filename: thumbnail_filename,
-              size: file.size,
+              size: File.size(thumbnail_file_path),
               parent_id: row[:id],
               thumbnail: :thumb
           rescue => e
@@ -273,8 +273,7 @@ module Leihs
 
         def read_and_encode_file(file_path)
           if File.exist?(file_path)
-            file = File.open(file_path)
-            Base64.encode64(file.read)
+            Base64.encode64(IO.read(file_path))
           else
             Rails.logger.warn "The file '#{file_path}' could not be found!"
             nil
@@ -370,12 +369,12 @@ module Leihs
           class_name = singleton_class.const_get("LeihsDBIOImport#{table_name.to_s.camelize}")
           rows = convert(table_name, rows).map do |row|
             begin
-            class_name.create! row.reject { |k, v| k == 'after_create' }
+            class_name.create!(row.reject { |k, v| k == 'after_create' })
             if row.has_key?('after_create')
               custom_after_create! row
             end
             rescue => e
-              #binding.pry
+              binding.pry
               raise e
             end
           end

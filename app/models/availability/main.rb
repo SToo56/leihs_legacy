@@ -91,11 +91,7 @@ module Availability
 
         ##################### START DATE: DON'T RECALCULATE PAST ##################
 
-        unavailable_from = if reservation.item_id
-                             Time.zone.today
-                           else
-                             [reservation.start_date, Time.zone.today].max
-                           end
+        unavailable_from = [reservation.start_date, Time.zone.today].max
 
         ######################### EXTEND END DATE #################################
         # If overdue, extend end_date to today.

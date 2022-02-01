@@ -46,8 +46,7 @@
       # if line is late then it won't be available until the item is returned
       end_date = line.late? ? Availability::ETERNITY : (line.end_date.tomorrow.to_time - 1.second)
 
-      # if line is reserved in the future and assigned an item, then the item will be reserved until then and not available from now on
-      start_date = line.reserved? ? Date.today : line.start_date
+      start_date = line.start_date
 
       events[group_id] ||= []
       events[group_id] << {:start         => start_date.to_time.to_s(:rfc822),

@@ -410,17 +410,8 @@ class Manage::ReservationsController < Manage::ApplicationController
 
     ApplicationRecord.transaction(requires_new: true) do
       begin
-        # error if item already assigned to some approved reservation of the user
-        if item && line = \
-            user
-            .reservations
-            .where(inventory_pool: current_inventory_pool)
-            .approved
-            .find_by(item_id: item.id)
-          error = \
-            _('%s is already assigned to this contract') % item.inventory_code
         # create new line or assign
-        elsif model
+        if model
           # try to assign for (selected)line_ids first
           if line_ids_param and code_param
             line = \

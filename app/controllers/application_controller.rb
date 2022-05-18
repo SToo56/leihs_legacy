@@ -72,6 +72,7 @@ class ApplicationController < ActionController::Base
   end
 
   def root
+    puts 'root redirect'
     # NOTE: this is only used in DEV/TEST (in PROD, the root page goes to `my` service). We set the "redirect-reason" only to track this…
     if logged_in?
       flash.keep

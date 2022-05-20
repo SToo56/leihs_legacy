@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
   # NOTE: New Borrow
   post "mail/received", to: "mails#send_received"
+  get "app/borrow" => redirect("/app/borrow/"), :constraints => lambda {|r| !r.original_fullpath.end_with?('/')}
 
   # Categories
   get "categories/:id/image", to: "categories#image", as: "category_image"

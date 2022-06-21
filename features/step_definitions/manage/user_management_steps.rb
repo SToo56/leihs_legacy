@@ -333,14 +333,14 @@ Then(/^I can assign and remove roles to and from users as specified in the follo
                # the unknown_user needs to have a role first, than it can be deleted
                data = {user: {id: unknown_user.id},
                        access_right: {role: :customer},
-                       db_auth: {login: Faker::Lorem.words(3).join, password: 'password', password_confirmation: 'password'}}
+                       db_auth: {login: Faker::Lorem.words(number: 3).join, password: 'password', password_confirmation: 'password'}}
                page.driver.browser.process(:put, manage_update_inventory_pool_user_path(@inventory_pool, unknown_user, format: :json), data)
                :no_access
            end
 
     data = {user: {id: unknown_user.id},
             access_right: {role: role, suspended_until: nil},
-            db_auth: {login: Faker::Lorem.words(3).join, password: 'password', password_confirmation: 'password'}}
+            db_auth: {login: Faker::Lorem.words(number: 3).join, password: 'password', password_confirmation: 'password'}}
 
     expect(page.driver.browser.process(:put, manage_update_inventory_pool_user_path(@inventory_pool, unknown_user, format: :json), data).successful?).to be true
 

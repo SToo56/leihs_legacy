@@ -109,7 +109,7 @@ end
 #############################################################################
 
 When(/^I enter a purpose$/) do
-  find("form textarea[name='purpose']", match: :first).set Faker::Lorem.sentences(2).join()
+  find("form textarea[name='purpose']", match: :first).set Faker::Lorem.sentences(number: 2).join()
 end
 
 When(/^I submit the order$/) do

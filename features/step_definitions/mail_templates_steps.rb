@@ -87,7 +87,9 @@ Then(/^I receive an email formatted according to the (reminder|deadline_soon_rem
                                    language: language,
                                    format: 'text')
   variables = MailTemplate.liquid_variables_for_user(@current_user, @visit.inventory_pool, @visit.reservations)
-  expect(sent_mail.body.to_s).to eq Liquid::Template.parse(template.body).render(variables)
+  t_mail = Liquid::Template.parse(template.body).render(variables)
+  # `to_crlf` due to https://github.com/mikel/mail/issues/1190#issuecomment-688410428
+  expect(sent_mail.body.raw_source).to eq Mail::Utilities.to_crlf(t_mail)
 end
 
 Given(/^the (reminder) mail template looks like$/) do |template_name, string|
@@ -157,7 +159,7 @@ Then(/^I receive a reminder in "(.*?)"$/) do |locale|
                                    format: 'text')
   string = Liquid::Template.parse(template.body).render(variables)
   sent_mail = get_reminder_for_visit(@visit)
-  expect(sent_mail.body.to_s).to eq string
+  expect(sent_mail.body.to_s).to eq Mail::Utilities.to_crlf(string)
 end
 
 When(/^I edit the (reminder) with the "(.*?)" template in "(.*?)"$/) do |template_name, body, locale|

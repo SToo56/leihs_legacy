@@ -9,8 +9,8 @@ class Object
   alias_method :ivar_set, :instance_variable_set
 end
 
-if ENV['FIREFOX_ESR_45_PATH'].present?
-  Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_45_PATH']
+if ENV['FIREFOX_ESR_78_PATH'].present?
+  Selenium::WebDriver::Firefox.path = ENV['FIREFOX_ESR_78_PATH']
 end
 
 [:firefox].each do |browser|
@@ -35,6 +35,7 @@ RSpec.configure do |config|
     Config::Database.restore_seeds
     Capybara.current_driver = :firefox
     page.driver.browser.manage.window.maximize
+    visit(root_path)
   end
 
   config.after(type: :feature) do |example|

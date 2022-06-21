@@ -89,6 +89,8 @@ jobs:
 
         assets compiled if changed:
           name: "Assets have been precompiled and checked in"
+          max_trials: 6
+          eager_trials: 3
           include:
             - path: cider-ci/task-components/database.yml
               submodules: database

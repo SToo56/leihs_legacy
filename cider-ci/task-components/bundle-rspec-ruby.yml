@@ -27,7 +27,11 @@ scripts:
 
       cd $LEIHS_LEGACY_DIR
 
-      bundle install
+      bundle config --local path vendor/bundle
+      bundle lock --add-platform x86_64-linux
+      gem update --system 
+      bundle update --bundler
+      bundle install --deployment
 
   test:
     start_when:

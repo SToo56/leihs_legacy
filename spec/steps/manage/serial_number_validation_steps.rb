@@ -21,7 +21,7 @@ module Manage
       end
 
       step 'I enter an inventory code' do
-        fill_in 'item[inventory_code]', with: Faker::Lorem.characters(6)
+        fill_in 'item[inventory_code]', with: Faker::Lorem.characters(number: 6)
       end
 
       step 'I select a model' do

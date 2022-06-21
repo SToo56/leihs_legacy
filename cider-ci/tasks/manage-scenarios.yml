@@ -2136,14 +2136,6 @@ tasks:
         export PATH=~/.rubies/$LEGACY_RUBY/bin:$PATH
         mkdir -p log
         xvfb-run -a -e log/xvfb.log --server-args='-screen 0 1920x1080x24' bundle exec cucumber --strict features/manage/lending/tabs_navigation.feature:10
-- name: features/manage/linegroup/selection.feature:10
-  scripts:
-    test:
-      body: |-
-        set -eux
-        export PATH=~/.rubies/$LEGACY_RUBY/bin:$PATH
-        mkdir -p log
-        xvfb-run -a -e log/xvfb.log --server-args='-screen 0 1920x1080x24' bundle exec cucumber --strict features/manage/linegroup/selection.feature:10
 - name: features/manage/mails/delegation_mail.feature:14
   scripts:
     test:

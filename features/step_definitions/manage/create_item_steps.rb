@@ -233,7 +233,7 @@ end
 When(/^I enter a supplier( that does not exist)?$/) do |supplier_string|
   @suppliers_count = Supplier.count
   if supplier_string
-    @new_supplier = Faker::Lorem.words(rand 1..3).join(' ')
+    @new_supplier = Faker::Lorem.words(number: rand(1..3)).join(' ')
     expect(Supplier.find_by_name(@new_supplier)).to eq nil
   else
     @new_supplier = Supplier.first.name

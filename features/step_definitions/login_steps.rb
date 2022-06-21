@@ -17,7 +17,7 @@ Given "I am logged in as '$username' with password '$password'" do |username, pa
   I18n.locale = if @current_user.language then @current_user.language.locale.to_sym else Language.default_language end
   @current_inventory_pool = @current_user.inventory_pools.managed.first
   case Capybara.current_driver
-    when /selenium/
+    when /firefox/
       visit '/'
       fill_in 'email', with: @current_user.email
       click_on _('Login')
@@ -56,7 +56,7 @@ end
 # It's possible that previous steps leave the running browser instance in a logged-in
 # state, which confuses tests that rely on "When I log in as the admin".
 When 'I make sure I am logged out' do
-  step 'I log out'
+  step('I log out') if @current_user
 end
 
 When /^I am redirected to the "([^"]*)" section$/ do |section_name|

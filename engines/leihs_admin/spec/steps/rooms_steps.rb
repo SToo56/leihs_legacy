@@ -94,7 +94,7 @@ module LeihsAdmin
       end
 
       step 'I enter the description' do
-        @new_description = Faker::Lorem.words(3).join(' ')
+        @new_description = Faker::Lorem.words(number: 3).join(' ')
         fill_in 'room[description]', with: @new_description
       end
 

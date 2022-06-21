@@ -46,44 +46,65 @@ end
 
 require 'selenium/webdriver'
 
-Capybara.register_driver :selenium_firefox do |app|
-  if ENV['FIREFOX_ESR_45_PATH'].present?
-    Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_ESR_45_PATH']
-  end
+ACCEPTED_FIREFOX_ENV_PATHS = ['FIREFOX_ESR_78_PATH']
+
+def accepted_firefox_path 
+  ENV[ ACCEPTED_FIREFOX_ENV_PATHS.detect do |env_path|
+    ENV[env_path].present?
+  end || ""].tap { |path|
+    path.presence or raise "no accepted FIREFOX found"
+  }
+end
+
+Selenium::WebDriver::Firefox.path = accepted_firefox_path
+
+Capybara.register_driver :firefox do |app|
+  # capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(
+  #   # TODO: trust the cert used in container and remove this:
+  #   acceptInsecureCerts: true
+  # )
+
   profile = Selenium::WebDriver::Firefox::Profile.new
-  Capybara::Selenium::Driver.new app, browser: :firefox, profile: profile
+
+  opts = Selenium::WebDriver::Firefox::Options.new(binary: accepted_firefox_path,
+                                                   profile: profile,
+                                                   log_level: :trace)
+
+  Capybara::Selenium::Driver.new(app, browser: :firefox, options: opts #,
+                                 # desired_capabilities: capabilities
+                                )
 end
 
 ##################################################################################
 
-Before('@ldap') do
-  ENV['TMPDIR'] = File.join(Rails.root, 'tmp')
-  # TODO: Move this out to something that runs *before* the test suite itself?
-  unless File.exist?(ENV['TMPDIR'])
-    Dir.mkdir(ENV['TMPDIR'])
-  end
-  Setting::LDAP_CONFIG = File.join(Rails.root, 'features', 'data', 'LDAP_generic.yml')
-  @ldap_server = Ladle::Server.new(
-    port: 12345,
-    ldif: File.join(Rails.root, 'features', 'data', 'ldif', 'generic.ldif'),
-    domain: 'dc=example,dc=org'
-  )
-  @ldap_server.start
-end
+Before('not @rack') do
+  Capybara.default_driver = :firefox
+  Capybara.current_driver = :firefox
 
-Before('~@rack') do
-  Capybara.current_driver = :selenium_firefox
-  # to prevent Selenium::WebDriver::Error::MoveTargetOutOfBoundsError: Element cannot be scrolled into view
+  # due to failing connection to geckodriver on cider
+  sleep 2
   page.driver.browser.manage.window.maximize
+
+  # wait_until do
+  #   begin
+  #     # to prevent Selenium::WebDriver::Error::MoveTargetOutOfBoundsError: Element cannot be scrolled into view
+  #     page.driver.browser.manage.window.maximize
+  #   rescue => e
+  #   end
+  #   true
+  # end
 end
 
 Before do
   Cucumber.logger.info "Current capybara driver: %s\n" % Capybara.current_driver
   Dataset.restore_dump
+  visit(root_path)
 end
 
-##################################################################################
-
-After('@ldap') do
-  @ldap_server.stop
+module Capybara::Node::Finders
+  # override due to raising an error instead of returning nil
+  def first(*args, **options, &optional_filter_block)
+    options = { minimum: 0 }.merge(options) unless options_include_minimum?(options)
+    all(*args, **options, &optional_filter_block).first
+  end
 end

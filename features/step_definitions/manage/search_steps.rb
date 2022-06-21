@@ -143,7 +143,7 @@ end
 Given(/^enough data for "(.*?)" having "(.*?)" exists$/) do |subsection, search_string|
   amount = 25
   @results = []
-  make_string = proc { "#{Faker::Lorem.characters(8)} #{search_string} #{Faker::Lorem.characters(8)}" }
+  make_string = proc { "#{Faker::Lorem.characters(number: 8)} #{search_string} #{Faker::Lorem.characters(number: 8)}" }
 
   amount.times do
     @results << \

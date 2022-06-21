@@ -27,11 +27,21 @@ scripts:
 
       cd $LEIHS_LEGACY_DIR
 
-      bundle config --local path vendor/bundle
-      bundle lock --add-platform x86_64-linux
-      gem update --system 
-      bundle update --bundler
-      bundle install --deployment
+      # NOTE: this could be activated as a last resort if bundler setup of repos using the same executors become incompatible:
+      # bundle config --local path 'vendor/bundle'
+
+      # mini_racer / libv8-node / bundler issues workaround <https://github.com/rubygems/rubygems/issues/3174>
+      gem update --system
+      # if the libv8-node gem was installed (globally!) in a broken state, remove it and mini_racer!
+      # FIXME: this should not run while tests are running… we cant really block that much, so accept some fails as this will run seldomly
+      if gem list info libv8-node | grep -q musl; then
+        gem uninstall --force --no-abort-on-dependent --all mini_racer libv8-node
+        gem install libv8-node
+        gem install mini_racer -v '0.6.2'
+      fi
+
+      bundle config --local without 'development'
+      bundle install
 
   test:
     start_when:

@@ -13,6 +13,7 @@ task_defaults:
       include_match: ^.*$
 
   environment_variables:
+    CI: 'true'
     RUBY_ENGINE: ruby
     RUBY_VERSION: 2.7.3
     RUBY: '{{RUBY_ENGINE}}-{{RUBY_VERSION}}'

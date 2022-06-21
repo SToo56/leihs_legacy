@@ -606,6 +606,7 @@ DEPENDENCIES
   rails-assets-jquery.inview (= 1.0.0)!
   rails-assets-moment (~> 2.10)!
   rails-assets-moment-range (= 2.2)!
+  rails-assets-select2 (= 4.0.8)!
   rails-assets-timecop (~> 0.1)!
   rails-assets-underscore (~> 1.8)!
   rails_autolink (~> 1.0)

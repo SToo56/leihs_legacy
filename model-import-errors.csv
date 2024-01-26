@@ -1,4 +1,4 @@
-model,supplier,technische details,description
+model,supplier  (Feldname unklar),Technische Details (Feldname unklar),description  (Feldname unklar)
 LES1532A,Black Box,LES1532A,Serial Console Server
 APIC-SERVER-M3,Cisco,APIC-M3,APIC Server M3
 Catalyst 2960-48TT-L,Cisco,WS-C2960-48TT-L,48 x 1000BaseT
@@ -25,5 +25,5 @@ ISR2921,Cisco,ISR2921/K9,Cisco ISR2921
 Nexus 5548UP,Cisco,N5K-C5548UP,EoL
 Nexus 93180YC-FX,Cisco,N9K-C93180YC-FX,"48xSFP28,2xQSFP28"
 Nexus 9348GC-FXP,Cisco,N9K-C9348GC-FXP,"48x1000BaseT,2xQSFP28"
-PA-5410,Palo Alto Networks,,Firewall
+PA-5410;Palo Alto Networks;;Firewall2
 PA-5430,Palo Alto Networks,,Firewall

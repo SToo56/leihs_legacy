@@ -1,33 +1,41 @@
 require_relative './parse_csv.rb'
 
+
+# FYI: comma separated values
+IMPORT_FILE_MODELS = "model-import.csv"
+IMPORT_FILE_ITEMS = "items-import.csv"
+
 DEFAULT_RETIRED_REASON = "retired"
 
 module ModelKeys
-  MODEL = :model
-  MANUFACTURER = :manufacturer
-  TECHNICAL_DETAILS = :technical_detail
-  DESCRIPTION = :description
-  end
-
-module ItemKeys
-  NAME = :name
-  SERIAL_NUMBER = :serial_number
-  RETIRED = :retired
-  IS_BROKEN = :is_broken
-  OWNER = :owner
-  RESPONSIBLE_DEPARTMENT = :inventory_pool
-  BUILDING = :building
-  ROOM = :room
-  PROPERTIES = :properties_installation_status
-  MODEL = :model
+  MODEL = "model"
+  MANUFACTURER = "supplier"
+  TECHNICAL_DETAILS = "technical_detail"
+  DESCRIPTION = "description"
 end
 
+module ItemKeys
+  NAME = "name"
+  SERIAL_NUMBER = "serial_number"
+  RETIRED = "retired"
+  IS_BROKEN = "is_broken"
+  OWNER = "owner"
+  RESPONSIBLE_DEPARTMENT = "inventory_pool"
+  BUILDING = "building"
+  ROOM = "room"
+  PROPERTIES = "properties_installation_status"
+  MODEL = "model"
+end
 
 def print_csv_model_row(row)
-  puts row['model']
-  puts row['supplier']
-  puts row['technische details']
-  puts row['description']
+  puts "----> print_csv_model_row "
+  # puts row['model']
+  # puts row[ModelKeys::MODEL.to_s]
+  puts row[ModelKeys::MODEL]
+  puts "----------"
+  puts row[ModelKeys::MANUFACTURER]
+  puts row[ModelKeys::TECHNICAL_DETAILS]
+  puts row[ModelKeys::DESCRIPTION]
 end
 
 def to_bool(value)
@@ -35,21 +43,24 @@ def to_bool(value)
 end
 
 def import_models_from_csv(error_map)
-  csv_parser = CSVParser.new("model-import.csv")
+  csv_parser = CSVParser.new(IMPORT_FILE_MODELS)
   csv_parser.for_each_row do |row|
-    # puts row
+    puts "csv-row _> #{row}"
     # puts "----"
     #
-    # print_csv_model_row(row)
+    print_csv_model_row(row)
 
-    model_name = "test-#{row['model']}"
+    puts "---- ??? #{ModelKeys::MODEL}  "
+
+    model_name = "test-#{row[ModelKeys::MODEL]}"
+    puts "model_name???: #{model_name}"
 
     model_attributes = {
-      # product: row['model'],  # TODO: revert to this
+      # product: row[ModelKeys::MODEL],  # TODO: revert to this
       product: model_name,
-      manufacturer: row['supplier'],
-      technical_detail: row['technische details'],
-      description: row['description']
+      manufacturer: row[ModelKeys::MANUFACTURER],
+      technical_detail: row[ModelKeys::TECHNICAL_DETAILS],
+      description: row[ModelKeys::DESCRIPTION]
     }
 
     begin
@@ -62,26 +73,26 @@ def import_models_from_csv(error_map)
 end
 
 def import_items_from_csv(error_map)
-  csv_parser = CSVParser.new("items-import.csv")
+  csv_parser = CSVParser.new(IMPORT_FILE_ITEMS)
   csv_parser.for_each_row do |row|
     puts row
     puts "----"
 
-    # model_name = row['model']                # TODO: revert to this
-    model_name = "test-#{row['model']}"
+    # model_name = row[ModelKeys::MODEL]                # TODO: revert to this
+    model_name = "test-#{row[ModelKeys::MODEL]}"
     puts "model_name: #{model_name}"
 
-    owner_name = row['owner']
+    owner_name = row[ItemKeys::OWNER]
     puts "owner_name: #{owner_name}"
 
-    is_retired = to_bool(row['retired'])
+    is_retired = to_bool(row[ItemKeys::RETIRED])
     puts "is_retired1: #{is_retired}"
     puts "is_retired2: #{is_retired.class}"
 
-    responsible_department_name = row['Verantwortliche Abteilung']
+    responsible_department_name = row[ItemKeys::RESPONSIBLE_DEPARTMENT]
     puts "responsible_department_name: #{responsible_department_name}"
 
-    building_name = row['Gebäude']
+    building_name = row[ItemKeys::BUILDING]
     puts "building_name: #{building_name}"
 
     # extract building.name & building.code from building_name "<building.name> (<building.code>)"
@@ -90,7 +101,7 @@ def import_items_from_csv(error_map)
     puts "building_name_extracted: #{building_name_extracted}"
     puts "building_code_extracted: #{building_code_extracted}"
 
-    room_name = row['Raum']
+    room_name = row[ItemKeys::ROOM]
     puts "room_name: #{room_name}"
 
     puts "----"
@@ -114,22 +125,22 @@ def import_items_from_csv(error_map)
     puts "building_rec: #{room_rec}"
 
     item_attributes = {
-      # name: "#{row['name']}",          # TODO: revert to this
-      name: "test-#{row['name']}",
+      # name: "#{row[ItemKeys::NAME]}",          # TODO: revert to this
+      name: "test-#{row[ItemKeys::NAME]}",
 
-      serial_number: row['serial_number'],
-      is_broken: to_bool(row['is_broken']),
+      serial_number: row[ItemKeys::SERIAL_NUMBER],
+      is_broken: to_bool(row[ItemKeys::IS_BROKEN]),
       owner_id: owner_rec.id,
       inventory_pool_id: responsible_department_name_rec.id,
       room_id: room_rec.id,
-      properties: { 'key' => row['properties_installation_status'] },
+      properties: { 'key' => row[ItemKeys::PROPERTIES] },
       model_id: model_rec.id
     }
 
     # FIXME / FYI: there is no "retired" attribute on the Item model
     if is_retired
       item_attributes[:retired] = Time.now
-      item_attributes[:retired_reason] = "retired"
+      item_attributes[:retired_reason] = DEFAULT_RETIRED_REASON
     end
 
     begin

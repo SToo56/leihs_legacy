@@ -1,256 +1,4 @@
 {
-  "model/test-LES1532A": {
-    "data": {
-      "product": "test-LES1532A",
-      "manufacturer": "Black Box",
-      "technical_detail": "LES1532A",
-      "description": "Serial Console Server"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-APIC-SERVER-M3": {
-    "data": {
-      "product": "test-APIC-SERVER-M3",
-      "manufacturer": "Cisco",
-      "technical_detail": "APIC-M3",
-      "description": "APIC Server M3"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 2960-48TT-L": {
-    "data": {
-      "product": "test-Catalyst 2960-48TT-L",
-      "manufacturer": "Cisco",
-      "technical_detail": "WS-C2960-48TT-L",
-      "description": "48 x 1000BaseT"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 2960CPD": {
-    "data": {
-      "product": "test-Catalyst 2960CPD",
-      "manufacturer": "Cisco",
-      "technical_detail": null,
-      "description": "8 x 1000BaseT, Fanless, PoE-Powered"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 2960G": {
-    "data": {
-      "product": "test-Catalyst 2960G",
-      "manufacturer": "Cisco",
-      "technical_detail": null,
-      "description": "48 x 1000BaseT"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 2960PD": {
-    "data": {
-      "product": "test-Catalyst 2960PD",
-      "manufacturer": "Cisco",
-      "technical_detail": null,
-      "description": "8 x 100BaseT, Fanless, PoE-Powered"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 2960S-24TS-L": {
-    "data": {
-      "product": "test-Catalyst 2960S-24TS-L",
-      "manufacturer": "Cisco",
-      "technical_detail": "WS-C2960S-24TS-L",
-      "description": "24 x 1000BaseT"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 3560CG": {
-    "data": {
-      "product": "test-Catalyst 3560CG",
-      "manufacturer": "Cisco",
-      "technical_detail": null,
-      "description": "8 x 1000BaseT, Fanless"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 3750X-48P-S": {
-    "data": {
-      "product": "test-Catalyst 3750X-48P-S",
-      "manufacturer": "Cisco",
-      "technical_detail": "WS-C3750X-48P-S",
-      "description": "48 x 1000BaseT, 2xSFP+, PoE+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 3850-12X48U-L": {
-    "data": {
-      "product": "test-Catalyst 3850-12X48U-L",
-      "manufacturer": "Cisco",
-      "technical_detail": "WS-C3850-12X48U-L",
-      "description": "EoL"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 6816-X": {
-    "data": {
-      "product": "test-Catalyst 6816-X",
-      "manufacturer": "Cisco",
-      "technical_detail": "C6816-X-LE",
-      "description": "16xSFP+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9120AXI-E": {
-    "data": {
-      "product": "test-Catalyst 9120AXI-E",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9120AXI-E",
-      "description": "Lightweight Access Point Wifi 6"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9130AXI-E": {
-    "data": {
-      "product": "test-Catalyst 9130AXI-E",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9130AXI-E",
-      "description": "Lightweight Access Point Wifi 6"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9200CX-12P": {
-    "data": {
-      "product": "test-Catalyst 9200CX-12P",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9200CX-12P-2X2G",
-      "description": "12 x 1000BaseT, Fanless, PoE+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9200CX-12T": {
-    "data": {
-      "product": "test-Catalyst 9200CX-12T",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9200CX-12T-2X2G",
-      "description": "12 x 1000BaseT, Fanless, PoE-Powered"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9300-24UX": {
-    "data": {
-      "product": "test-Catalyst 9300-24UX",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9300-24UX",
-      "description": "24 x 1000BaseT, 2xSFP28, PoE+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9300-24UXB": {
-    "data": {
-      "product": "test-Catalyst 9300-24UXB",
-      "manufacturer": "Cisco",
-      "technical_detail": null,
-      "description": "24 x 1000BaseT, 2xSFP28, PoE+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9300-48UXM": {
-    "data": {
-      "product": "test-Catalyst 9300-48UXM",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9300-48UXM",
-      "description": "48 x 1000BaseT, 2xSFP28, PoE+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9500-24Q": {
-    "data": {
-      "product": "test-Catalyst 9500-24Q",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9500-24Q",
-      "description": "24xQSFP+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9500-48": {
-    "data": {
-      "product": "test-Catalyst 9500-48",
-      "manufacturer": "Cisco",
-      "technical_detail": null,
-      "description": "48xSFP28,2xQSFP+"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Catalyst 9800-40-K9": {
-    "data": {
-      "product": "test-Catalyst 9800-40-K9",
-      "manufacturer": "Cisco",
-      "technical_detail": "C9800-40-K9",
-      "description": "Cisco Wireless Controller"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-ISE-VM-K9": {
-    "data": {
-      "product": "test-ISE-VM-K9",
-      "manufacturer": "Cisco",
-      "technical_detail": null,
-      "description": "ISE Virtual Appliance"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-ISR2921": {
-    "data": {
-      "product": "test-ISR2921",
-      "manufacturer": "Cisco",
-      "technical_detail": "ISR2921/K9",
-      "description": "Cisco ISR2921"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Nexus 5548UP": {
-    "data": {
-      "product": "test-Nexus 5548UP",
-      "manufacturer": "Cisco",
-      "technical_detail": "N5K-C5548UP",
-      "description": "EoL"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Nexus 93180YC-FX": {
-    "data": {
-      "product": "test-Nexus 93180YC-FX",
-      "manufacturer": "Cisco",
-      "technical_detail": "N9K-C93180YC-FX",
-      "description": "48xSFP28,2xQSFP28"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-Nexus 9348GC-FXP": {
-    "data": {
-      "product": "test-Nexus 9348GC-FXP",
-      "manufacturer": "Cisco",
-      "technical_detail": "N9K-C9348GC-FXP",
-      "description": "48x1000BaseT,2xQSFP28"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-PA-5410": {
-    "data": {
-      "product": "test-PA-5410",
-      "manufacturer": "Palo Alto Networks",
-      "technical_detail": null,
-      "description": "Firewall"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
-  "model/test-PA-5430": {
-    "data": {
-      "product": "test-PA-5430",
-      "manufacturer": "Palo Alto Networks",
-      "technical_detail": null,
-      "description": "Firewall"
-    },
-    "error": "Validation failed: A model with the same product name and empty version already exists."
-  },
   "items/test-SERIAL": {
     "data": {
       "name": "test-SERIAL",
@@ -262,8 +10,8 @@
       "properties": {
         "key": "inStorage"
       },
-      "model_id": "99f73902-7b29-4734-9e1c-a41dacc98d8c",
-      "retired": "2024-01-26T15:21:36.921+01:00",
+      "model_id": "0743a042-9390-49eb-9476-f97c7c63c3e5",
+      "retired": "2024-01-26T16:26:06.248+01:00",
       "retired_reason": "retired"
     },
     "error": "Validation failed: Same or similar serial number already exists."
@@ -279,8 +27,8 @@
       "properties": {
         "key": "inStorage"
       },
-      "model_id": "4412a9e0-4411-4a46-9941-254cb24b6ec4",
-      "retired": "2024-01-26T15:21:45.059+01:00",
+      "model_id": "d3b4ed2c-8902-432f-85c9-3f7dc2d784fd",
+      "retired": "2024-01-26T16:26:14.712+01:00",
       "retired_reason": "retired"
     },
     "error": "Validation failed: Same or similar serial number already exists."
@@ -296,8 +44,8 @@
       "properties": {
         "key": "inStorage"
       },
-      "model_id": "4edacfc1-2652-4efc-9a82-94cb7944ff33",
-      "retired": "2024-01-26T15:22:00.324+01:00",
+      "model_id": "60bcdb06-b33a-4d63-ba1d-0a8161c9bbac",
+      "retired": "2024-01-26T16:26:29.759+01:00",
       "retired_reason": "retired"
     },
     "error": "Validation failed: Same or similar serial number already exists."

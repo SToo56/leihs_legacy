@@ -5,8 +5,8 @@ APIC3,WZP23240TQ6,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekann
 AUS-242-03,FCW2132D0XV,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 3850-12X48U-L,,,,,
 AUS-242-04,FOC2132X0RH,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 3850-12X48U-L,,,,,
 AUS-256-05,FDO1703H1MW,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 3750X-48P-S,,,,,
-AUS-K23-00,FOC1802Y5A1,true,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 3560CG,,,,,
-AUS-K23-01,FOC1804Y0QU,true,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 2960CPD,,,,,
+AUS-K23-00,FOC1802Y5A1,true,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,installed,Catalyst 3560CG,,,,,
+AUS-K23-01,FOC1804Y0QU,true,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,installed,Catalyst 2960CPD,,,,,
 AUS-K61-01,FDO2042F1W3,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 3750X-48P-S,,,,,
 AUS-K61-02,FDO1537K0SQ,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 3750X-48P-S,,,,,
 AUS-SIQ-PE,FDO2127L01J,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,Catalyst 6816-X,,,,,r

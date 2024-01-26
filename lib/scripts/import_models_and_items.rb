@@ -2,6 +2,7 @@ require_relative './parse_csv.rb'
 require 'date'
 
 
+# RUN: bundle exec rails runner lib/scripts/import_models_and_items.rb
 
 # FYI: comma separated values
 IMPORT_FILE_MODELS = "model-import.csv"
@@ -194,14 +195,14 @@ def import_models_and_items
   ActiveRecord::Base.transaction do
     error_map = {}
 
-    # import_models_from_csv(error_map)
+    import_models_from_csv(error_map)
     import_items_from_csv(error_map)
 
     if error_map.length > 0 then
       log_errors_and_rollback(error_map)
     end
 
-    puts "----- INFO: IMPORT-PROCESS COMPLETED -----"
+    puts "----- INFO: IMPORT-PROCESS SUCCESSFULLY COMPLETED -----"
   end
 end
 

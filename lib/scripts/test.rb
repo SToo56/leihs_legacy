@@ -37,6 +37,11 @@ def print_csv_model_row(row)
   puts row['description']
 end
 
+def to_bool(value)
+  !!value
+end
+
+
 def import_models
   csv_parser = CSVParser.new("model-import.csv")
   # csv_parser = CSVParser.new("model-import-errors.csv")
@@ -58,8 +63,8 @@ def import_models
     ).save!
 
     # Fetch a record
-    # model_rec = Model.find_by(product: row['model'])
-    fetched_model = Model.find_by(product: model_name)
+    # model_rec = Model.find_by!(product: row['model'])
+    fetched_model = Model.find_by!(product: model_name)
 
     puts "?model: #{fetched_model}"
     puts "?model: #{fetched_model.id}"
@@ -88,6 +93,10 @@ def import_models_items
       owner_name = row['owner']
       puts "owner_name: #{owner_name}"
 
+      is_retired = to_bool(row['retired'])
+      puts "is_retired1: #{is_retired}"
+      puts "is_retired2: #{is_retired.class}"
+
       responsible_department_name = row['Verantwortliche Abteilung']
       puts "responsible_department_name: #{responsible_department_name}"
 
@@ -100,61 +109,54 @@ def import_models_items
       puts "building_name_extracted: #{building_name_extracted}"
       puts "building_code_extracted: #{building_code_extracted}"
 
-
       room_name = row['Raum']
       puts "room_name: #{room_name}"
 
-
       puts "----"
 
-
-      model_rec = Model.find_by(product: model_name)
+      model_rec = Model.find_by!(product: model_name)
       puts "model_rec: #{model_rec}"
 
       puts "owner_rec.name: ??? >#{owner_name}<"
-      owner_rec = InventoryPool.find_by(name: owner_name)
+      owner_rec = InventoryPool.find_by!(name: owner_name)
       puts "owner_rec: #{owner_rec}"
 
-      responsible_department_name_rec = InventoryPool.find_by(name: responsible_department_name)
+      responsible_department_name_rec = InventoryPool.find_by!(name: responsible_department_name)
       puts "responsible_department_name_rec: #{responsible_department_name_rec}"
 
-      building_rec = Building.find_by(name: building_name_extracted, code: building_code_extracted)
+      building_rec = Building.find_by!(name: building_name_extracted, code: building_code_extracted)
       # building_name_with_code= "#{building_rec.name} (#{building_rec.code})"
       puts "building_rec: #{building_rec}"
       # puts "building_name_with_code: #{building_name_with_code}"
 
-      room_rec = Room.find_by(building_id: building_rec.id, name: room_name)
+      room_rec = Room.find_by!(building_id: building_rec.id, name: room_name)
       puts "building_rec: #{room_rec}"
 
-      model = Item.create(
-        # name:row['name'],
+      model_attributes = {
         name: "test-#{row['name']}",
         serial_number: row['serial_number'],
-        retired: row['retired'],           # TODO: retired = true
-        is_broken: row['is_broken'],
+        is_broken: to_bool(row['is_broken']),
         owner_id: owner_rec.id,
-        inventory_pool_id: responsible_department_name_rec.id, # TODO: Verantwortliche Abteilung?
+        inventory_pool_id: responsible_department_name_rec.id,
         room_id: room_rec.id,
-        # properties: "{'key': #{row['properties_installation_status']}}",
-        # properties: "{'key': #{row['properties_installation_status']}}",
         properties: { 'key' => row['properties_installation_status'] },
         model_id: model_rec.id
-      ).save!
+      }
+
+      if is_retired
+        model_attributes[:retired] = Time.now
+        model_attributes[:retired_reason] = "retired"
+      end
+
+      # Create the Item with the defined attributes
+      model = Item.create(model_attributes).save!
 
       break
     end
 
-
     puts "----- IMPORT-PROCESS COMPLETED -----"
-
-    # Optionally, raise ActiveRecord::Rollback under certain conditions to undo the transaction
-    # raise ActiveRecord::Rollback if some_condition
   end
 end
-
-
-
-
 
 # # Retrieve all records from InventoryPool
 # inventory_pools = InventoryPool.all
@@ -175,16 +177,8 @@ end
 #   puts "No records found in InventoryPool."
 # end
 
-
-
 # Start an ActiveRecord transaction
 import_models_items
-
-
-
-
-
-
 
 # # parse data from csv
 # # csv_parser = CSVParser.new("model-import.csv")

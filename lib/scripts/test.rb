@@ -1,34 +1,27 @@
-# require_relative '../path/to/csv_parser'
 require_relative './parse_csv.rb'
 
-# bundle exec rails runner lib/scripts/test.rb
-puts "servus du"
-puts "---------------------------------"
+DEFAULT_RETIRED_REASON = "retired"
 
-# ActiveRecord::Base.transaction do
-#  # Your database operations go here
-#  # For example, creating or updating records
-#
-#  # If an error occurs, you can raise an ActiveRecord::Rollback to trigger a rollback
-#  raise ActiveRecord::Rollback if true == true
-#
-#  # If an unhandled exception occurs, the transaction will also rollback
-# end
+module ModelKeys
+  MODEL = :model
+  MANUFACTURER = :manufacturer
+  TECHNICAL_DETAILS = :technical_detail
+  DESCRIPTION = :description
+  end
 
-# # Start an ActiveRecord transaction
-# ActiveRecord::Base.transaction do
-#  # Insert a new record into the Model table
-#  Model.create(attribute1: value1, attribute2: value2, ...)
-#
-#  # Optionally, raise ActiveRecord::Rollback under certain conditions to undo the transaction
-#  raise ActiveRecord::Rollback if some_condition
-# end
+module ItemKeys
+  NAME = :name
+  SERIAL_NUMBER = :serial_number
+  RETIRED = :retired
+  IS_BROKEN = :is_broken
+  OWNER = :owner
+  RESPONSIBLE_DEPARTMENT = :inventory_pool
+  BUILDING = :building
+  ROOM = :room
+  PROPERTIES = :properties_installation_status
+  MODEL = :model
+end
 
-# mc = Model.count
-# ic = Item.count
-# puts("Model count is: #{mc}\n")
-# puts("Item count is: #{ic}")
-puts "---------------------------------"
 
 def print_csv_model_row(row)
   puts row['model']
@@ -43,19 +36,16 @@ end
 
 def import_models_from_csv(error_map)
   csv_parser = CSVParser.new("model-import.csv")
-  # csv_parser = CSVParser.new("model-import-errors.csv")
   csv_parser.for_each_row do |row|
-    puts row
-    puts "----"
-
-    print_csv_model_row(row)
+    # puts row
+    # puts "----"
+    #
+    # print_csv_model_row(row)
 
     model_name = "test-#{row['model']}"
 
-    # Insert a new record into the Model table
-
     model_attributes = {
-      # product: row['model'],
+      # product: row['model'],  # TODO: revert to this
       product: model_name,
       manufacturer: row['supplier'],
       technical_detail: row['technische details'],
@@ -77,7 +67,7 @@ def import_items_from_csv(error_map)
     puts row
     puts "----"
 
-    # model_name = row['model']
+    # model_name = row['model']                # TODO: revert to this
     model_name = "test-#{row['model']}"
     puts "model_name: #{model_name}"
 
@@ -124,7 +114,9 @@ def import_items_from_csv(error_map)
     puts "building_rec: #{room_rec}"
 
     item_attributes = {
+      # name: "#{row['name']}",          # TODO: revert to this
       name: "test-#{row['name']}",
+
       serial_number: row['serial_number'],
       is_broken: to_bool(row['is_broken']),
       owner_id: owner_rec.id,
@@ -140,7 +132,6 @@ def import_items_from_csv(error_map)
       item_attributes[:retired_reason] = "retired"
     end
 
-    # Create the Item with the defined attributes
     begin
       Item.create(item_attributes).save!
     rescue => e
@@ -150,23 +141,24 @@ def import_items_from_csv(error_map)
   end
 end
 
+def log_errors_and_rollback(error_map)
+  puts "====== ERRORS ========"
+  puts "#{error_map.length} errors occurred"
+  puts error_map.to_json
+  puts "======================"
+
+  raise ActiveRecord::Rollback
+end
+
 def import_models_and_items
   ActiveRecord::Base.transaction do
     error_map = {}
 
-    # parse data from csv
     import_models_from_csv(error_map)
-
-    # parse data from csv
     import_items_from_csv(error_map)
 
     if error_map.length > 0 then
-      puts "====== ERRORS ========"
-      puts "#{error_map.length} errors occurred"
-      puts error_map.to_json
-      puts "======================"
-
-      raise ActiveRecord::Rollback
+      log_errors_and_rollback(error_map)
     end
 
     puts "----- INFO: IMPORT-PROCESS COMPLETED -----"

@@ -1,4 +1,4 @@
-model,supplier,technische details,description
+model,supplier,technical_detail,description
 LES1532A,Black Box,LES1532A,Serial Console Server
 APIC-SERVER-M3,Cisco,APIC-M3,APIC Server M3
 Catalyst 2960-48TT-L,Cisco,WS-C2960-48TT-L,48 x 1000BaseT

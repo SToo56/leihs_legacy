@@ -1,12 +1,16 @@
 require_relative './parse_csv.rb'
+require_relative './logger.rb'
 require 'date'
 
-
+# TODO: remove this
 # RUN: bundle exec rails runner lib/scripts/import_models_and_items.rb
 
 # FYI: comma separated values
 IMPORT_FILE_MODELS = "model-import.csv"
 IMPORT_FILE_ITEMS = "items-import.csv"
+
+# set this from "test-" to "" for production/stage
+PREFIX_WITH_DASH_FOR_TEST_ENTRIES = "test-"
 
 PROPERTY_KEY_INSTALLATION_STATUS = "installation_status"
 DEFAULT_RETIRED_REASON = "retired"
@@ -32,15 +36,6 @@ module ItemKeys
   INVENTORY_CODE = "inventory_code"
 end
 
-def print_csv_model_row(row)
-  puts "----> print_csv_model_row "
-  puts row[ModelKeys::MODEL]
-  puts "----------"
-  puts row[ModelKeys::MANUFACTURER]
-  puts row[ModelKeys::TECHNICAL_DETAILS]
-  puts row[ModelKeys::DESCRIPTION]
-end
-
 def to_bool(str)
   case str.downcase
   when 'true', 't', 'yes', 'y', '1'
@@ -53,15 +48,8 @@ def to_bool(str)
 end
 
 def gen_model_attributes(row)
-
-  print_csv_model_row(row)
-
-  model_name = "test-#{row[ModelKeys::MODEL]}"
-
   model_attributes = {
-    # product: row[ModelKeys::MODEL],  # TODO: revert to this
-    product: model_name,
-
+    product: "#{PREFIX_WITH_DASH_FOR_TEST_ENTRIES}#{row[ModelKeys::MODEL]}",
     manufacturer: row[ModelKeys::MANUFACTURER],
     technical_detail: row[ModelKeys::TECHNICAL_DETAILS],
     description: row[ModelKeys::DESCRIPTION]
@@ -90,9 +78,10 @@ def extract_building_name_and_code(building_name)
 end
 
 def gen_item_attributes(row)
-  # model_name = row[ModelKeys::MODEL]                # TODO: revert to this
-  model_name = "test-#{row[ModelKeys::MODEL]}"
-  puts "model_name: #{model_name}"
+  model_name = "#{PREFIX_WITH_DASH_FOR_TEST_ENTRIES}#{row[ModelKeys::MODEL]}"
+  if !PREFIX_WITH_DASH_FOR_TEST_ENTRIES.empty?
+    log("DEV-MODE: model_name modified! model_name: #{model_name}", :warn, true)
+  end
 
   owner_name = row[ItemKeys::OWNER]
   is_retired = to_bool(row[ItemKeys::RETIRED])
@@ -100,8 +89,6 @@ def gen_item_attributes(row)
 
   building_name = row[ItemKeys::BUILDING]
   building_code_extracted, building_name_extracted = extract_building_name_and_code(building_name)
-  puts "building_name_extracted: #{building_name_extracted}"
-  puts "building_code_extracted: #{building_code_extracted}"
 
   room_name = row[ItemKeys::ROOM]
   model_rec = Model.find_by!(product: model_name)
@@ -111,7 +98,7 @@ def gen_item_attributes(row)
   room_rec = Room.find_by!(building_id: building_rec.id, name: room_name)
 
   item_attributes = {
-    note: "test-#{row[ItemKeys::NOTE]}",
+    note: "#{PREFIX_WITH_DASH_FOR_TEST_ENTRIES}#{row[ItemKeys::NOTE]}",
     inventory_code: Item.proposed_inventory_code(responsible_department_name_rec, :lowest),
     serial_number: row[ItemKeys::SERIAL_NUMBER],
     is_broken: to_bool(row[ItemKeys::IS_BROKEN]),
@@ -145,10 +132,8 @@ def import_items_from_csv(error_map)
 end
 
 def log_errors_and_rollback(error_map)
-  puts "====== ERRORS ========"
-  puts "#{error_map.length} errors occurred"
-  puts error_map.to_json
-  puts "======================"
+  log("#{error_map.length} errors occurred", :error, true)
+  log(error_map.to_json, :error, true)
 
   raise ActiveRecord::Rollback
 end
@@ -164,7 +149,7 @@ def import_models_and_items
       log_errors_and_rollback(error_map)
     end
 
-    puts "----- INFO: IMPORT-PROCESS SUCCESSFULLY COMPLETED -----"
+    log('IMPORT-PROCESS SUCCESSFULLY COMPLETED', :info, true)
   end
 end
 

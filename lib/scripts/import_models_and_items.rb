@@ -19,7 +19,7 @@ module ModelKeys
 end
 
 module ItemKeys
-  NAME = "name"
+  NOTE = "note"
   SERIAL_NUMBER = "serial_number"
   RETIRED = "retired"
   IS_BROKEN = "is_broken"
@@ -29,6 +29,7 @@ module ItemKeys
   ROOM = "room"
   PROPERTIES = "properties_installation_status"
   MODEL = "model"
+  INVENTORY_CODE = "inventory_code"
 end
 
 def print_csv_model_row(row)
@@ -88,6 +89,15 @@ def extract_building_name_and_code(building_name)
   return building_code_extracted, building_name_extracted
 end
 
+def generate_inventory_code(current_inventory_pool)
+  # code here
+  inventory_code=Item.proposed_inventory_code(current_inventory_pool, :lowest)
+
+  puts ">>> inventory_code: #{inventory_code}"
+
+  return inventory_code
+end
+
 def gen_item_attributes(row)
   # model_name = row[ModelKeys::MODEL]                # TODO: revert to this
   model_name = "test-#{row[ModelKeys::MODEL]}"
@@ -110,9 +120,9 @@ def gen_item_attributes(row)
   room_rec = Room.find_by!(building_id: building_rec.id, name: room_name)
 
   item_attributes = {
-    # name: "#{row[ItemKeys::NAME]}",          # TODO: revert to this
-    name: "test-#{row[ItemKeys::NAME]}",
-
+    # name: "#{row[ItemKeys::INVENTORY_CODE]}",          # TODO: revert to this
+    note: "test-#{row[ItemKeys::NOTE]}",
+    inventory_code: generate_inventory_code(responsible_department_name_rec.id),
     serial_number: row[ItemKeys::SERIAL_NUMBER],
     is_broken: to_bool(row[ItemKeys::IS_BROKEN]),
     owner_id: owner_rec.id,
@@ -141,6 +151,8 @@ def import_items_from_csv(error_map)
     rescue => e
       error_map["items/#{item_attributes[:name]}"] = { 'data': item_attributes, 'error': e.message }
     end
+
+    break;
   end
 end
 

@@ -1,4 +1,4 @@
-name,serial_number,retired,is_broken,owner,inventory_pool,building,room,properties_installation_status,model,,,,,
+note,serial_number,retired,is_broken,owner,inventory_pool,building,room,properties_installation_status,model,,,,,
 APIC1,WZP23260T35,false,false,ITZ-Ausstellungen,ITZ-Ausstellungen,Toni-Areal (TONI),Unbekannter Raum,inStorage,APIC-SERVER-M3,,,,,
 APIC2,WZP23250BPK,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,APIC-SERVER-M3,,,,,
 APIC3,WZP23240TQ6,false,false,ITZ-Network,ITZ-Network,Toni-Areal (TONI),Unbekannter Raum,inStorage,APIC-SERVER-M3,,,,,
